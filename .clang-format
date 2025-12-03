@@ -1,0 +1,41 @@
+BasedOnStyle: LLVM
+
+UseTab: Always
+IndentWidth: 8
+TabWidth: 8
+ContinuationIndentWidth: 8
+
+NamespaceIndentation: All
+IndentCaseLabels: false
+
+# --- BLANK LINE CONTROLS ---
+EmptyLineBeforeAccessModifier: Always
+EmptyLineAfterAccessModifier: Always
+
+KeepEmptyLinesAtTheStartOfBlocks: true
+
+# --- OTHERS ---
+BreakBeforeBraces: Attach
+AllowShortBlocksOnASingleLine: false
+PointerAlignment: Left
+ColumnLimit: 120
+SortIncludes: true
+
+# --- ACCESS MODIFIERS ---
+IndentAccessModifiers: false        # access mods not indented more than the class
+AccessModifierOffset: -8            # = -IndentWidth → align with 'class'
+
+# --- “NO EXTRA SPACES”-ish TUNING ---
+SpaceBeforeParens: Never
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+SpacesInAngles: Never              # keep `std::vector<int>` not `std::vector< int >`
+SpacesInCStyleCastParentheses: false
+SpacesInContainerLiterals: false
+SpacesBeforeTrailingComments: 1    # or 0 if you want `code//comment`
+
+# Align consecutive declarations (types)
+AlignConsecutiveDeclarations: true
+
+# Align consecutive bitfields, macros, etc.
+AlignConsecutiveBitFields: true
