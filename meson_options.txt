@@ -1,0 +1,7 @@
+option(
+    'app_target',
+    type: 'combo',
+    choices: ['Editor', 'Game'],
+    value: 'Editor',
+    description: 'Choose which application to build (Editor or Game)'
+)

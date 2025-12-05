@@ -1,41 +1,64 @@
-BasedOnStyle: LLVM
+# ================================
+# OpusStyle C++ Formatting Profile
+# ================================
 
+BasedOnStyle: LLVM
+Language: Cpp
+
+# --- INDENTATION ---
 UseTab: Always
 IndentWidth: 8
 TabWidth: 8
 ContinuationIndentWidth: 8
-
 NamespaceIndentation: All
-IndentCaseLabels: false
+IndentAccessModifiers: false
+AccessModifierOffset: -8
 
-# --- BLANK LINE CONTROLS ---
+# --- BRACES / BLOCKS ---
+# Classes, structs, namespaces: brace on a new line
+BraceWrapping:
+  AfterClass: true
+  AfterStruct: true
+  AfterNamespace: true
+  AfterControlStatement: false
+  AfterFunction: false
+  BeforeElse: false
+  SplitEmptyFunction: false
+
+BreakBeforeBraces: Custom
+
+# Keep spacing around small control blocks
+AllowShortBlocksOnASingleLine: false
+
+# --- ALIGNMENT ---
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignConsecutiveBitFields: true
+
+# --- BLANK LINES ---
 EmptyLineBeforeAccessModifier: Always
 EmptyLineAfterAccessModifier: Always
-
 KeepEmptyLinesAtTheStartOfBlocks: true
 
-# --- OTHERS ---
-BreakBeforeBraces: Attach
-AllowShortBlocksOnASingleLine: false
-PointerAlignment: Left
-ColumnLimit: 120
-SortIncludes: true
-
-# --- ACCESS MODIFIERS ---
-IndentAccessModifiers: false        # access mods not indented more than the class
-AccessModifierOffset: -8            # = -IndentWidth → align with 'class'
-
-# --- “NO EXTRA SPACES”-ish TUNING ---
+# --- SPACING ---
 SpaceBeforeParens: Never
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-SpacesInAngles: Never              # keep `std::vector<int>` not `std::vector< int >`
+SpacesInAngles: Never
 SpacesInCStyleCastParentheses: false
 SpacesInContainerLiterals: false
-SpacesBeforeTrailingComments: 1    # or 0 if you want `code//comment`
+SpacesBeforeTrailingComments: 1
 
-# Align consecutive declarations (types)
-AlignConsecutiveDeclarations: true
+# --- LINE LENGTH ---
+ColumnLimit: 120
 
-# Align consecutive bitfields, macros, etc.
-AlignConsecutiveBitFields: true
+# --- INCLUDES ---
+SortIncludes: true
+
+# --- POINTERS ---
+PointerAlignment: Left
+
+# --- COMMENTS ---
+ReflowComments: false
+
+IndentCaseLabels: true
