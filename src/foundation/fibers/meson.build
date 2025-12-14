@@ -49,5 +49,5 @@ fibers_lib = static_library(
   include_directories: include_directories('boost'),
 )
 
-# Export to your foundation module list
+# Export to the foundation module list
 foundation_modules += fibers_lib

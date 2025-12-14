@@ -1,0 +1,34 @@
+{
+	"version": "2.0.0",
+	"options": {
+		"shell": {
+			"executable": "cmd.exe",
+			"args": [
+				"/c"
+			]
+		},
+	},
+	"tasks": [
+		{
+			"label": "Build-Opus3D-Debug",
+			"type": "shell",
+			"command": "call .vscode\\msvc-setup.bat && ( if exist build\\windows-msvc-debug ( ninja -C build\\windows-msvc-debug -v ) else ( meson setup build\\windows-msvc-debug --buildtype=debug && ninja -C build\\windows-msvc-debug -v ) )",
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"label": "Build-Opus3D-Release",
+			"type": "shell",
+			"command": "call .vscode\\msvc-setup.bat && ( if exist build\\windows-msvc-release ( ninja -C build\\windows-msvc-release -v ) else ( meson setup build\\windows-msvc-release --buildtype=release && ninja -C build\\windows-msvc-release -v ) )",
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"label": "Build-All",
+			"type": "shell",
+			"command": "call .vscode\\msvc-setup.bat && ( if exist build\\windows-msvc-debug ( ninja -C build\\windows-msvc-debug -v ) else ( meson setup build\\windows-msvc-debug --buildtype=debug && ninja -C build\\windows-msvc-debug -v ) ) && ( if exist build\\windows-msvc-release ( ninja -C build\\windows-msvc-release -v ) else ( meson setup build\\windows-msvc-release --buildtype=release && ninja -C build\\windows-msvc-release -v ) )",
+			"group": "build",
+			"problemMatcher": []
+		}
+	]
+}

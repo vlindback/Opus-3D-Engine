@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/core/application.hpp"
+#include <engine/core/application.hpp>
 
 namespace opus3d
 {

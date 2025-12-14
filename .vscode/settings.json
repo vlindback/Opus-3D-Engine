@@ -1,0 +1,15 @@
+{
+	"mesonbuild.configureOnOpen": false
+} // {
+// 	"C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+// 	"terminal.integrated.profiles.windows": {
+// 		"Windows Terminal (cmd)": {
+// 			"path": "wt.exe",
+// 			"args": [
+// 				"cmd.exe"
+// 			]
+// 		}
+// 	},
+// 	"terminal.integrated.defaultProfile.windows": "Windows Terminal (cmd)",
+// 	"mesonbuild.configureOnOpen": false,
+// }

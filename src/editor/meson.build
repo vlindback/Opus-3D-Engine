@@ -1,9 +1,12 @@
+# editor/meson.build
+
 executable(
-    'editor',
-    ['src/main.cpp', 'src/editor_application.cpp'],
+    'Opus3D-Editor',
+    ['main.cpp', 'editor_application.cpp'],
     dependencies: [engine_dep],
     include_directories: [
         '.',
         '..',
     ],
+    install: true,
 )

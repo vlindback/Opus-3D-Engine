@@ -1,0 +1,53 @@
+{
+	"name": "opus3d-test-adapter",
+	"displayName": "Opus3D Test Adapter",
+	"description": "Test adapter for the Opus3D engine using Meson introspection.",
+	"version": "0.0.1",
+	"publisher": "local",
+	"engines": {
+		"vscode": "^1.90.0"
+	},
+	"categories": [
+		"Testing"
+	],
+	"activationEvents": [
+		"onStartupFinished"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"testing": {
+			"testProviders": [
+				{
+					"controllerId": "opus3dTestController",
+					"label": "Opus3D Tests"
+				}
+			]
+		},
+		"configuration": {
+			"properties": {
+				"opus3dTests.buildConfig": {
+					"type": "string",
+					"default": "",
+					"description": "Meson build configuration directory under 'build/'. Leave empty to auto-detect."
+				},
+				"opus3dTests.targetName": {
+					"type": "string",
+					"default": "Opus3D-Test",
+					"description": "Meson target name of the test executable."
+				}
+			}
+		}
+	},
+	"scripts": {
+		"build": "tsc -p .",
+		"watch": "tsc -watch -p .",
+		"compile": "npm run build",
+		"package": "vsce package",
+		"deploy": "npm run build && vsce package"
+	},
+	"devDependencies": {
+		"@types/node": "^20.0.0",
+		"@types/vscode": "^1.107.0",
+		"typescript": "^5.0.0"
+	}
+}

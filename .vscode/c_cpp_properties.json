@@ -1,0 +1,55 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                // Meson/C++ includes start from the parent of engine/ and foundation/.
+                // This allows #include <engine/core/application.hpp>
+                "${workspaceFolder}/src",
+                // Meson Subprojects (for #include <glm/glm.hpp>)
+                "${workspaceFolder}/subprojects/**",
+                // Vulkan SDK (Using the system variable)
+                "${VULKAN_SDK}/Include",
+                // This variable is set by vcvars64.bat and contains paths to system headers (e.g., C:\Program Files (x86)\Windows Kits\...)
+                "${env:INCLUDE}"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                // Unique macro for the Game build
+                "OPUS3D_GAME_BUILD"
+            ],
+            "windowsSdkVersion": "10.0.22000.0",
+            "compilerPath": "cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++20", // Meson default is usually c++20 or c++17
+            "intelliSenseMode": "windows-msvc-x64"
+        },
+        {
+            "name": "Win32 Editor",
+            // Inherit paths from the Game configuration to avoid duplication,
+            // only redefining the unique parts if necessary.
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/subprojects/**",
+                "${workspaceFolder}/external/vcpkg/installed/x64-windows/include/**",
+                "${VULKAN_SDK}/Include",
+                "${env:INCLUDE}"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                // Unique macro for the Editor build
+                "OPUS3D_EDITOR_BUILD"
+            ],
+            "windowsSdkVersion": "10.0.22000.0",
+            "compilerPath": "cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "windows-msvc-x64"
+        }
+    ],
+    "version": 4
+}
