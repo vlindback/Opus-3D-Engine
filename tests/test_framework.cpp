@@ -14,57 +14,59 @@ namespace opus3d::tests
 		// The empty string_view for rejection cases
 		const std::string_view empty_sv{};
 
-		// Find the first delimiter
-		size_t delimiterPos1 = input.find('/');
+		// Find delimiters
+		const size_t delimiterPos1 = input.find('/');
+		const size_t delimiterPos2 =
+			delimiterPos1 == std::string::npos ? std::string::npos : input.find('/', delimiterPos1 + 1);
+		const size_t delimiterPos3 =
+			delimiterPos2 == std::string::npos ? std::string::npos : input.find('/', delimiterPos2 + 1);
 
-		// Check if the first '/' was found
-		if(delimiterPos1 == std::string::npos) {
-			// Format rejected: No '/' found (e.g., "Category")
-			return Result{empty_sv, empty_sv, empty_sv};
-		}
-
-		// Find the second delimiter, starting *after* the first one
-		size_t delimiterPos2 = input.find('/', delimiterPos1 + 1);
-
-		// Check if the second '/' was found
-		if(delimiterPos2 == std::string::npos) {
-			// Format rejected: Only one '/' found (e.g., "Category/Suite")
-			return Result{empty_sv, empty_sv, empty_sv};
-		}
-
-		// Ensure no third delimiter exists
-		size_t delimiterPos3 = input.find('/', delimiterPos2 + 1);
-
+		// Reject if more than two slashes
 		if(delimiterPos3 != std::string::npos) {
-			// Format rejected: Three or more '/' found (e.g., "Cat/Suite/Test/Extra")
 			return Result{empty_sv, empty_sv, empty_sv};
 		}
 
-		// Format is Test"Category/TestSuite/Test"
-		std::string_view testCategory(input.data(), delimiterPos1);
-		std::string_view testSuite(input.data() + delimiterPos1 + 1, delimiterPos2 - (delimiterPos1 + 1));
-		std::string_view testName(input.data() + delimiterPos2 + 1, input.length() - (delimiterPos2 + 1));
+		// Only category provided: "Category"
+		if(delimiterPos1 == std::string::npos) {
+			return Result{std::string_view(input.data(), input.size()), empty_sv, empty_sv};
+		}
 
-		return Result{testCategory, testSuite, testName};
+		// Category and suite: "Category/Suite"
+		if(delimiterPos2 == std::string::npos) {
+			return Result{std::string_view(input.data(), delimiterPos1),
+				      std::string_view(input.data() + delimiterPos1 + 1,
+						       input.length() - (delimiterPos1 + 1)),
+				      empty_sv};
+		}
+
+		// Full path: "Category/Suite/Test"
+		return Result{std::string_view(input.data(), delimiterPos1),
+			      std::string_view(input.data() + delimiterPos1 + 1, delimiterPos2 - (delimiterPos1 + 1)),
+			      std::string_view(input.data() + delimiterPos2 + 1, input.length() - (delimiterPos2 + 1))};
 	}
 
 	// Run a single test and print protocol lines
 	static bool run_single_test(Test* test) {
-		const std::string full_name = test->testCategory + "/" + test->testSuite + "/" + test->testName;
+		const std::string fullName = test->testCategory + "/" + test->testSuite + "/" + test->testName;
 
-		std::cout << "TEST_START " << full_name << "\n";
+		bool passed = false;
+
+		std::cout << "TEST_START " << fullName << "\n";
 
 		try {
 			test->run();
-			std::cout << "TEST_PASS " << full_name << "\n";
-			return true;
-		} catch(const std::exception& e) {
-			std::cout << "TEST_FAIL " << full_name << " " << e.what() << "\n";
-			return false;
+			std::cout << "TEST_PASSED " << fullName << "\n";
+			passed = true;
+		} catch(const TestFailure& e) {
+			std::cout << "TEST_FAILED " << fullName << " " << e.what() << " File: " << e.file << ":"
+				  << e.line << "\n";
 		} catch(...) {
-			std::cout << "TEST_FAIL " << full_name << " unknown_exception\n";
-			return false;
+			std::cout << "TEST_FAILED " << fullName << " unknown_exception\n";
 		}
+
+		std::cout << "TEST_END " << fullName << "\n";
+
+		return passed;
 	}
 
 	int TestController::execute_all() {
@@ -80,10 +82,7 @@ namespace opus3d::tests
 	} // namespace opus3d::tests
 
 	int TestController::execute_filtered(const std::string& filter) {
-		int failures = 0;
-
-		std::cout << "filter: " << filter << '\n';
-
+		int		   failures    = 0;
 		std::vector<Test*> sortedTests = tests;
 
 		std::sort(sortedTests.begin(), sortedTests.end(), [](const Test* a, const Test* b) {
@@ -97,8 +96,6 @@ namespace opus3d::tests
 		});
 
 		auto [testCategory, testSuite, testName] = extract_test_components(filter);
-
-		std::cout << "comp: " << testCategory << "/" << testSuite << "/" << testName << '\n';
 
 		for(Test* test : tests) {
 

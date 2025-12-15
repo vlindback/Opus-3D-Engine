@@ -5,7 +5,7 @@
 	"version": "0.0.1",
 	"publisher": "local",
 	"engines": {
-		"vscode": "^1.90.0"
+		"vscode": "^1.107.0"
 	},
 	"categories": [
 		"Testing"
@@ -34,6 +34,11 @@
 					"type": "string",
 					"default": "Opus3D-Test",
 					"description": "Meson target name of the test executable."
+				},
+				"opus3dTests.executablePath": {
+					"type": "string",
+					"default": "",
+					"description": "Optional absolute or workspace-relative path to the test executable. Overrides auto-detection."
 				}
 			}
 		}
@@ -49,5 +54,10 @@
 		"@types/node": "^20.0.0",
 		"@types/vscode": "^1.107.0",
 		"typescript": "^5.0.0"
-	}
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/vlindback/Opus-3D-Engine"
+	},
+	"license": "MIT"
 }
