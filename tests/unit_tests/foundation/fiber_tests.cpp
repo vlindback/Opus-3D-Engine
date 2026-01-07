@@ -1,6 +1,6 @@
-#include "..\tests\test_framework.hpp"
+#include "../tests/test_framework.hpp"
 
-#include "foundation/fibers/fiber.hpp"
+#include <foundation/fibers/include/fiber.hpp>
 
 #include <memory>
 
@@ -9,7 +9,8 @@ namespace opus3d::tests
 	// Verifies the most basic fiber lifecycle:
 	// a fiber does not run until resumed, runs exactly once,
 	// and correctly transitions to the "done" state afterward.
-	BEGIN_TEST(Foundation, Fibers, BasicSwitchReturn) {
+	BEGIN_TEST(Foundation, Fibers, BasicSwitchReturn)
+	{
 
 		bool ran = false;
 
@@ -28,7 +29,8 @@ namespace opus3d::tests
 	// Verifies that a fiber can yield multiple times and resume execution
 	// at the correct instruction point each time.
 	// This tests correct instruction pointer and stack preservation.
-	BEGIN_TEST(Foundation, Fibers, MultiStepSwitching) {
+	BEGIN_TEST(Foundation, Fibers, MultiStepSwitching)
+	{
 
 		int counter = 0;
 
@@ -61,7 +63,8 @@ namespace opus3d::tests
 	// Verifies that fibers can safely create and resume other fibers
 	// and that nested context switches return control to the correct parent.
 	// This is critical for schedulers and task systems.
-	BEGIN_TEST(Foundation, Fibers, NestedFibers) {
+	BEGIN_TEST(Foundation, Fibers, NestedFibers)
+	{
 
 		int  order  = 0;
 		auto stackA = std::make_unique<char[]>(64 * 1024);
@@ -110,7 +113,8 @@ namespace opus3d::tests
 	// Verifies that multiple independent fibers can be interleaved
 	// in a deterministic order without interfering with each other's state.
 	// This validates stack isolation between fibers.
-	BEGIN_TEST(Foundation, Fibers, MultipleFibersSequence) {
+	BEGIN_TEST(Foundation, Fibers, MultipleFibersSequence)
+	{
 
 		std::vector<int> execution;
 		auto		 stack1 = std::make_unique<char[]>(64 * 1024);
@@ -147,7 +151,8 @@ namespace opus3d::tests
 	// Verifies that local variables stored on a fiber's stack
 	// retain their values across yields.
 	// This catches stack corruption and misaligned stack pointers.
-	BEGIN_TEST(Foundation, Fibers, StackLocalPersistence) {
+	BEGIN_TEST(Foundation, Fibers, StackLocalPersistence)
+	{
 
 		auto stack    = std::make_unique<char[]>(64 * 1024);
 		int  observed = 0;
@@ -167,7 +172,8 @@ namespace opus3d::tests
 	// Verifies that large stack frames are handled correctly.
 	// This helps detect incorrect stack sizing, guard issues,
 	// or ABI-specific stack alignment problems.
-	BEGIN_TEST(Foundation, Fibers, LargeStackFrame) {
+	BEGIN_TEST(Foundation, Fibers, LargeStackFrame)
+	{
 
 		auto stack     = std::make_unique<char[]>(128 * 1024);
 		bool completed = false;
@@ -189,7 +195,8 @@ namespace opus3d::tests
 	// across context switches.
 	// This is one of the most common failure points when porting
 	// fibers across compilers, ABIs, or operating systems.
-	BEGIN_TEST(Foundation, Fibers, FloatingPointPreservation) {
+	BEGIN_TEST(Foundation, Fibers, FloatingPointPreservation)
+	{
 
 		auto   stack  = std::make_unique<char[]>(64 * 1024);
 		double result = 0.0;
@@ -208,7 +215,8 @@ namespace opus3d::tests
 
 	// Verifies that calling resume() on a completed fiber is safe
 	// and does not re-run the task or corrupt state.
-	BEGIN_TEST(Foundation, Fibers, ResumeAfterDoneIsSafe) {
+	BEGIN_TEST(Foundation, Fibers, ResumeAfterDoneIsSafe)
+	{
 
 		auto stack   = std::make_unique<char[]>(64 * 1024);
 		int  counter = 0;
@@ -225,7 +233,8 @@ namespace opus3d::tests
 	// Verifies that multiple fibers sharing captured variables
 	// do not interfere with each other.
 	// This ensures closure state and stack memory remain isolated.
-	BEGIN_TEST(Foundation, Fibers, SharedCaptureIsolation) {
+	BEGIN_TEST(Foundation, Fibers, SharedCaptureIsolation)
+	{
 
 		auto stack1 = std::make_unique<char[]>(64 * 1024);
 		auto stack2 = std::make_unique<char[]>(64 * 1024);
@@ -256,19 +265,22 @@ namespace opus3d::tests
 	// Stress test that performs a large number of context switches.
 	// This helps catch rare register corruption, stack drift,
 	// or incorrect save/restore behavior under heavy switching.
-	BEGIN_TEST(Foundation, Fibers, StressSwitching) {
+	BEGIN_TEST(Foundation, Fibers, StressSwitching)
+	{
 
 		auto stack = std::make_unique<char[]>(64 * 1024);
 		int  count = 0;
 
 		opus3d::foundation::Fiber fiber(stack.get(), 64 * 1024, [&](auto& self) {
-			for(int i = 0; i < 10000; ++i) {
+			for(int i = 0; i < 10000; ++i)
+			{
 				count++;
 				self.yield();
 			}
 		});
 
-		for(int i = 0; i < 10000; ++i) {
+		for(int i = 0; i < 10000; ++i)
+		{
 			fiber.resume();
 		}
 

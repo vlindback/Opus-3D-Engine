@@ -1,44 +1,30 @@
 # foundation/meson.build
 
-# --- Global Setup ---
+# --- Subdirectories ---
+# These subdirs should append their library objects to foundation_modules
 
-# List to hold the libraries compiled in subdirectories (vulkan, fibers, etc.)
-# This list will be linked into the main foundation_lib.
 foundation_modules = []
+foundation_inc = [include_directories('.'), opus_src_root]
 
-# --- Subdirectories and Dependencies ---
-
-subdir('vulkan')
+subdir('core')
+subdir('containers')
 subdir('fibers')
-# subdir('window') # Future module
-# subdir('audio')  # Future module
-
-# --- Define the Core Foundation Library ---
-
-foundation_sources = files(
-    'foundation_placeholder.cpp'
-    # Add any other source files specific to the base foundation layer
-)
+subdir('memory')
+subdir('application')
 
 foundation_lib = static_library(
     'foundation',
-    foundation_sources,
+    [],
     link_whole: foundation_modules,
-    include_directories: include_directories('.'), # Include foundation headers
+    include_directories: foundation_inc,
     cpp_args: '-D_OPUS_FOUNDATION_BUILD',
     install: true,
 )
 
 # --- Foundation as a dependency ---
-
-# Export the compiled foundation library as a dependency object.
-# This allows other parts of the project (like the 'engine' or 'game')
-# to easily link against the entire Foundation layer using:
-# foundation_dep = dependency('foundation')
 foundation_dep = declare_dependency(
     link_with: foundation_lib,
-    include_directories: include_directories('.'),
+    # Crucial: Anyone using foundation needs to see the 'src' root
+    # so they can resolve <foundation/module/include/header.hpp>
+    include_directories: foundation_inc,
 )
-
-# Makes this available to the root meson.build (which includes this subdir):
-set_variable('foundation_dep', foundation_dep)

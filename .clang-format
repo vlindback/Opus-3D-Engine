@@ -14,18 +14,34 @@ NamespaceIndentation: All
 IndentAccessModifiers: false
 AccessModifierOffset: -8
 
+BinPackArguments: false
+BinPackParameters: true
+AlignAfterOpenBracket: Align
+AllowAllParametersOfDeclarationOnNextLine: false
+
 # --- BRACES / BLOCKS ---
+
 # Classes, structs, namespaces: brace on a new line
 BraceWrapping:
   AfterClass: true
   AfterStruct: true
+  AfterUnion: true
   AfterNamespace: true
-  AfterControlStatement: false
-  AfterFunction: false
-  BeforeElse: false
+  AfterControlStatement: Always
+  AfterEnum: true
+  AfterFunction: true
+  AfterCaseLabel: true
+  BeforeElse: true
+  BeforeCatch: true
   SplitEmptyFunction: false
+  SplitEmptyRecord: false # Keeps {} on one line if empty
+  SplitEmptyNamespace: false
+
+AlwaysBreakTemplateDeclarations: Yes
 
 BreakBeforeBraces: Custom
+BreakConstructorInitializers: AfterColon
+ConstructorInitializerIndentWidth: 8
 
 # Keep spacing around small control blocks
 AllowShortBlocksOnASingleLine: false
@@ -50,7 +66,7 @@ SpacesInContainerLiterals: false
 SpacesBeforeTrailingComments: 1
 
 # --- LINE LENGTH ---
-ColumnLimit: 120
+ColumnLimit: 160
 
 # --- INCLUDES ---
 SortIncludes: true

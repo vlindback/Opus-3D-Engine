@@ -7,8 +7,8 @@ foundation_dep = get_variable('foundation_dep')
 
 # --- Source Files ---
 engine_sources = files(
-    'core/application.cpp',
-    'core/engine.cpp'
+    'core/src/application.cpp',
+    'core/src/engine.cpp'
 )
 
 

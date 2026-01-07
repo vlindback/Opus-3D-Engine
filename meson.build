@@ -10,6 +10,10 @@ project(
     ],
 )
 
+# This points to C:\code\opus3d\src
+# Any subproject using this will correctly resolve <foundation/...>
+opus_src_root = include_directories('src')
+
 subdir('src/foundation')
 subdir('src/engine')
 subdir('src/editor')
